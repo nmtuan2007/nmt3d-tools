@@ -1,0 +1,34 @@
+[package]
+name = "nmt3d-tools"
+version = "0.1.0"
+description = "Short-form 3D printing video production pipeline"
+authors = ["Tuan Nguyen"]
+edition = "2024"
+
+[lib]
+# The `_lib` suffix avoids a lib/bin name clash on Windows, see https://github.com/rust-lang/cargo/issues/8519
+name = "nmt3d_tools_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = ["protocol-asset"] }
+tauri-plugin-fs = "2"
+tauri-plugin-dialog = "2"
+tauri-plugin-sql = { version = "2", features = ["sqlite"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tokio = { version = "1", features = ["full"] }
+reqwest = { version = "0.12", features = ["json", "stream"] }
+uuid = { version = "1.8", features = ["v4"] }
+chrono = { version = "0.4", features = ["serde"] }
+anyhow = "1.0"
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = 3
+panic = "abort"
+strip = true
